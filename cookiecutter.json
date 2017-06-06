@@ -1,0 +1,8 @@
+{
+    "project_name": "project_name",
+    "repo_name": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
+    "exec_name": "main.py",
+    "description": "",
+    "author": "",
+    "email": ""
+}
