@@ -1,7 +1,7 @@
 # DeepLearning w/ Keras Project Template
 
 ```bash
-cookiecutter https://github.com/cympfh/cookiecutter-keras-project.git
+cookiecutter gh:cympfh/cookiecutter-keras
 ```
 
 ### requirements
