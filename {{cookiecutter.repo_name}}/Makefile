@@ -10,6 +10,10 @@ train:
 test:
 	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}} test $(shell ls -1 snapshots/*.h5|peco)
 
+## visplot a log
+log:
+		visplot --smoothing 2 -x epoch -y acc,val_acc $(shell ls -1 logs/*.json)
+
 .DEFAULT_GOAL := help
 
 ## shows this
