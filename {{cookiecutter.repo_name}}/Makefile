@@ -17,5 +17,5 @@ help:
 	@grep -A1 '^## ' ${MAKEFILE_LIST} | grep -v '^--' |\
 		awk 'NR % 2 == 1 { PREV=$$0 } NR % 2 == 0 { print $$0,PREV }' |\
 		sed 's/^/ESC[32m/g; s/: ##/ESC[0m\t/g' |\
-		sed 's/ESC/'$(shell printf "\e")'/g' |\
+		sed 's/ESC/'$(shell printf "\033")'/g' |\
 		column -t -s "$(shell printf "\t")"
