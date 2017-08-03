@@ -3,6 +3,11 @@ import json
 from keras.callbacks import Callback
 
 
+def info(path, obj):
+    with open(path, 'a') as f:
+        f.write(json.dumps({'_info': obj}) + '\n')
+
+
 class JsonLog(Callback):
 
     def __init__(self, logpath, interval=1):
