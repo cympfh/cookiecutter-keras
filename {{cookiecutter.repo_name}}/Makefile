@@ -19,7 +19,5 @@ log:
 ## shows this
 help:
 	@grep -A1 '^## ' ${MAKEFILE_LIST} | grep -v '^--' |\
-		awk 'NR % 2 == 1 { PREV=$$0 } NR % 2 == 0 { print $$0,PREV }' |\
-		sed 's/^/ESC[32m/g; s/: ##/ESC[0m\t/g' |\
-		sed 's/ESC/'$(shell printf "\033")'/g' |\
-		column -t -s "$(shell printf "\t")"
+		sed 's/^## *//g; s/:$$//g' |\
+		awk 'NR % 2 == 1 { PREV=$$0 } NR % 2 == 0 { printf "\033[32m%-18s\033[0m %s\n", $$0, PREV }'
