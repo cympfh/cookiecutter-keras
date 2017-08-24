@@ -44,6 +44,9 @@ def train(name, resume):
     echo('model building...')
     model = lib.model.build()
     model.summary()
+    if resume:
+        echo('Resume Learning from {}'.format(resume))
+        model.load_weights(resume, by_name=True)
 
     # training
     echo('start learning...')
