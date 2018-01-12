@@ -4,7 +4,7 @@ import tensorflow as tf
 from keras import backend as K
 
 import dataset
-import lib.log
+import lib.logging as logging
 import lib.model
 
 
@@ -28,7 +28,7 @@ def train(name, resume):
     echo('log path', log_path)
     echo('out path', out_path)
 
-    lib.log.info(log_path, {'_commandline': {'name': name, 'resume': resume}})
+    logging.info(log_path, {'_commandline': {'name': name, 'resume': resume}})
 
     # init
     echo('train', (name, resume))
@@ -39,6 +39,8 @@ def train(name, resume):
     # dataset
     echo('dataset loading...')
     (x_train, y_train), (x_test, y_test) = dataset.load()
+    # (generator, steps_per_epoch), (validation_generator, validation_steps) = \
+    #     dataset.batch_generator(HEIGHT, WIDTH, 20)
 
     # model building
     echo('model building...')
@@ -51,12 +53,16 @@ def train(name, resume):
     # training
     echo('start learning...')
     callbacks = [
-        lib.log.JsonLog(log_path),
+        logging.JsonLog(log_path),
         keras.callbacks.ModelCheckpoint(out_path, monitor='val_loss', save_weights_only=True)
     ]
     model.fit(x_train, y_train, batch_size=30, epochs=10,
               callbacks=callbacks,
               validation_data=(x_test, y_test))
+    # model.fit_generator(generator(), steps_per_epoch=steps_per_epoch,
+    #                     epochs=10, verbose=1,
+    #                     callbacks=callbacks,
+    #                     validation_data=validation_generator(), validation_steps=validation_steps)
 
 
 @main.command()
