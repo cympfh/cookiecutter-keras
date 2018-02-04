@@ -1,6 +1,6 @@
 #!/bin/bash
 
-curl -s https://www.gitignore.io/api/python >> .gitignore
+curl -s https://www.gitignore.io/api/python | grep -v '^lib/' >> .gitignore
 
 git init
 git config --local user.name "{{ cookiecutter.author }}"
