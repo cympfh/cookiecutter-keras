@@ -12,6 +12,6 @@ def build():
     model.add(Dense(10, activation='softmax'))
 
     opt = Adam(clipvalue=1.0)
-    model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+    model.compile(loss='sparse_categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 
     return model

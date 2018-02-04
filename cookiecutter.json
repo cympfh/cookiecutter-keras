@@ -1,8 +1,9 @@
 {
-    "project_name": "project_name",
+    "project_name": "sample",
     "repo_name": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
-    "exec_name": "main.py",
+    "exec_name": "{{ cookiecutter.project_name|lower|replace(' ', '_') }}",
+    "fit_generator": ["yes", "no"],
     "description": "",
-    "author": "",
+    "full_name": "",
     "email": ""
 }

@@ -1,14 +1,14 @@
 ## training mode (newly)
 train:
-	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}} train --name $(shell date "+%Y-%m-%d-%s")
+	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}}.py train --name $(shell date "+%Y-%m-%d-%s")
 
 ## training mode (resume from a snapshot)
 train-from:
-	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}} train --name $(shell date "+%Y-%m-%d-%s") --resume $(shell ls -1 snapshots/*.h5|peco)
+	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}}.py train --name $(shell date "+%Y-%m-%d-%s") --resume $(shell ls -1 snapshots/*.h5|peco)
 
 ## testing mode
 test:
-	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}} test $(shell ls -1 snapshots/*.h5|peco)
+	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}}.py test $(shell ls -1 snapshots/*.h5|peco)
 
 ## visplot a log
 log:

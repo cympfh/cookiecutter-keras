@@ -5,7 +5,11 @@ from keras.callbacks import Callback
 
 def info(path, obj):
     with open(path, 'a') as f:
-        f.write(json.dumps({'_info': obj}) + '\n')
+        _log = {
+            '_info': obj,
+            '_time': int(datetime.datetime.now().timestamp())
+        }
+        f.write(json.dumps(_log) + '\n')
 
 
 class JsonLog(Callback):
