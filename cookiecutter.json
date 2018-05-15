@@ -4,6 +4,6 @@
     "exec_name": "{{ cookiecutter.project_name|lower|replace(' ', '_') }}",
     "fit_generator": ["yes", "no"],
     "description": "",
-    "full_name": "",
+    "author": "",
     "email": ""
 }

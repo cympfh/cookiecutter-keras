@@ -18,7 +18,7 @@ Select fit_generator:
 2 - no
 Choose from 1, 2 [1]: 1
 description []: A cool projectj
-full_name [cympfh]:
+author [cympfh]:
 email [cympfh@gmail.com]:
 Initialized empty Git repository in /home/cympfh/git/cool/.git/
 Created cool
