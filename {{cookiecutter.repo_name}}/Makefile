@@ -12,7 +12,7 @@ test:
 
 ## visplot a log
 log:
-		visplot --smoothing 2 -x epoch -y acc,val_acc $(shell ls -1 logs/*.json)
+		visplot --smoothing 2 -x epoch -y acc,val_acc $(shell ls -1 logs/*.json|peco)
 
 .DEFAULT_GOAL := help
 
