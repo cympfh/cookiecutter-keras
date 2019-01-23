@@ -1,15 +1,25 @@
 import datetime
 import json
+
+import click
 from keras.callbacks import Callback
 
 
-def info(path, obj):
-    with open(path, 'a') as f:
+class Logger:
+
+    def __init__(self, logpath):
+        self.logpath = logpath
+
+    def __call__(self, obj):
         _log = {
             '_info': obj,
             '_time': int(datetime.datetime.now().timestamp())
         }
-        f.write(json.dumps(_log) + '\n')
+        if self.logpath is None:
+            click.secho(json.dumps(_log), err=True)
+        else:
+            with open(self.logpath, 'a') as f:
+                f.write(json.dumps(_log) + '\n')
 
 
 class JsonLog(Callback):
@@ -22,8 +32,11 @@ class JsonLog(Callback):
     def on_epoch_end(self, epoch, logs={}):
         if epoch % self.interval != 0:
             return
-        with open(self.logpath, 'a') as f:
-            _logs = logs.copy()
-            _logs['time'] = int(datetime.datetime.now().timestamp())
-            _logs['epoch'] = epoch
-            f.write(json.dumps(_logs) + '\n')
+        _logs = logs.copy()
+        _logs['time'] = int(datetime.datetime.now().timestamp())
+        _logs['epoch'] = epoch
+        if self.logpath is None:
+            click.secho(json.dumps(_logs), err=True)
+        else:
+            with open(self.logpath, 'a') as f:
+                f.write(json.dumps(_logs) + '\n')

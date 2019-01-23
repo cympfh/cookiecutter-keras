@@ -8,8 +8,8 @@ from {{cookiecutter.exec_name}} import logging
 from {{cookiecutter.exec_name}} import model as Model
 
 
-def echo(*args):
-    click.secho(' '.join(str(arg) for arg in args), fg='green', err=True)
+def echo(*args, fg='green'):
+    click.secho(' '.join(str(arg) for arg in args), fg=fg, err=True)
 
 
 @click.group()
@@ -18,7 +18,7 @@ def main():
 
 
 @main.command()
-@click.option('--name', help='model name')
+@click.option('--name', help='model name', default=None)
 @click.option('--resume', help='when resume learning from the snapshot')
 @click.option('--batch-size', type=int, default=32)
 @click.option('--epochs', type=int, default=5)
@@ -26,17 +26,24 @@ def main():
 def train(name, resume, batch_size, epochs, verbose):
 
     # paths
-    log_path = "logs/{}.json".format(name)
-    out_path = "snapshots/" + name + ".{epoch:06d}.h5"
+    log_path = None if name is None f"logs/{name}.json"
+    out_path = None if name is None f"snapshots/{name}.{{epoch:06d}}.h5"
     echo('log path', log_path)
     echo('out path', out_path)
 
+    # running parameters
+    run_params = locals()
+
     # init
-    echo('train', locals())
-    logging.info(log_path, {'train': locals()})
+    echo('train', run_params)
+    log = logging.Logger(log_path)
+    log({'train': run_params})
     session = tf.Session('')
     K.set_session(session)
     K.set_learning_phase(1)
+
+    if name is None:
+        echo("Warning: name is None. Models will never be saved.", fg='red')
 
     # dataset
     echo('dataset loading...')
@@ -56,13 +63,14 @@ def train(name, resume, batch_size, epochs, verbose):
 
     # training
     echo('start learning...')
-    callbacks = [
-        logging.JsonLog(log_path),
-        keras.callbacks.ModelCheckpoint(out_path,
-                                        monitor='val_loss',
-                                        save_weights_only=True,
-                                        save_best_only=True,)
-    ]
+    callbacks = [logging.JsonLog(log_path)]
+    if name is not None:
+        callbacks += [
+            keras.callbacks.ModelCheckpoint(out_path,
+                                            monitor='val_loss',
+                                            save_weights_only=True,
+                                            save_best_only=True,)
+        ]
 {%- if cookiecutter.fit_generator == "no" %}
     model.fit(X, y,
               batch_size=batch_size,
@@ -88,8 +96,11 @@ def train(name, resume, batch_size, epochs, verbose):
 @click.option('--batch-size', type=int, default=32)
 def test(snapshot, batch_size):
 
+    # running parameters
+    run_params = locals()
+
     # init
-    echo('test', locals())
+    echo('test', run_params)
     session = tf.Session('')
     K.set_session(session)
     K.set_learning_phase(0)
