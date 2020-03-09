@@ -1,18 +1,18 @@
-## training mode (newly)
+## training newly
 train:
-	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}}.py train --name $(shell date "+%Y-%m-%d-%s")
+	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}}.py train simple
 
-## training mode (resume from a snapshot)
-train-from:
-	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}}.py train --name $(shell date "+%Y-%m-%d-%s") --resume $(shell ls -1 snapshots/*.h5|peco)
+## training from a snapshot
+train-resume:
+	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}}.py train ninja --resume $(shell ls -1 snapshots/simple.*.h5 | tail -1)
 
-## testing mode
+## testing
 test:
-	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}}.py test $(shell ls -1 snapshots/*.h5|peco)
+	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}}.py test simple
 
-## visplot a log
+## visplot log
 log:
-		visplot --smoothing 2 -x epoch -y acc,val_acc $(shell ls -1 logs/*.json|peco)
+	visplot --smoothing 2 -x epoch -y acc,val_acc $(shell ls -1 logs/*.json | peco)
 
 .DEFAULT_GOAL := help
 
