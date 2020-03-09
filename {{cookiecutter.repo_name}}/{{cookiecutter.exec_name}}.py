@@ -26,8 +26,8 @@ def main():
 def train(name, resume, batch_size, epochs, verbose):
 
     # paths
-    log_path = None if name is None f"logs/{name}.json"
-    out_path = None if name is None f"snapshots/{name}.{{epoch:06d}}.h5"
+    log_path = None if name is None else f"logs/{name}.json"
+    out_path = None if name is None else {% raw %}f"snapshots/{name}.{{epoch:06d}}.h5"{% endraw %}
     echo('log path', log_path)
     echo('out path', out_path)
 

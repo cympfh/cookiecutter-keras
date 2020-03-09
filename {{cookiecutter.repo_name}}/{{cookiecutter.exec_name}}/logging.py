@@ -2,7 +2,27 @@ import datetime
 import json
 
 import click
+import numpy
 from keras.callbacks import Callback
+
+
+class NumpyJsonEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, numpy.integer):
+            return int(obj)
+        elif isinstance(obj, numpy.floating):
+            return float(obj)
+        elif isinstance(obj, numpy.ndarray):
+            return obj.tolist()
+        else:
+            return super().default(obj)
+
+
+class Json:
+
+    @classmethod
+    def dumps(cls, obj) -> str:
+        return json.dumps(obj, cls=NumpyJsonEncoder)
 
 
 class Logger:
@@ -16,10 +36,10 @@ class Logger:
             '_time': int(datetime.datetime.now().timestamp())
         }
         if self.logpath is None:
-            click.secho(json.dumps(_log), err=True)
+            click.secho(Json.dumps(_log), err=True)
         else:
             with open(self.logpath, 'a') as f:
-                f.write(json.dumps(_log) + '\n')
+                f.write(Json.dumps(_log) + '\n')
 
 
 class JsonLog(Callback):
@@ -36,7 +56,7 @@ class JsonLog(Callback):
         _logs['time'] = int(datetime.datetime.now().timestamp())
         _logs['epoch'] = epoch
         if self.logpath is None:
-            click.secho(json.dumps(_logs), err=True)
+            click.secho(Json.dumps(_logs), err=True)
         else:
             with open(self.logpath, 'a') as f:
-                f.write(json.dumps(_logs) + '\n')
+                f.write(Json.dumps(_logs) + '\n')

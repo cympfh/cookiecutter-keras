@@ -5,7 +5,14 @@ pip install -U cookiecutter
 cookiecutter gh:cympfh/cookiecutter-keras
 ```
 
-## usage
+## Supporting
+
+| package      | versions |
+|:-------------|:---------|
+| cookiecutter | 1.7.0    |
+| keras        | 2.3.1    |
+
+## Usage
 
 ```bash
 $ cookiecutter gh:cympfh/cookiecutter-keras
@@ -23,6 +30,8 @@ email [cympfh@gmail.com]:
 Initialized empty Git repository in /home/cympfh/git/cool/.git/
 Created cool
 ```
+
+## Options
 
 ### `Select fit_generator`
 
