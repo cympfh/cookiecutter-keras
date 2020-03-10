@@ -6,9 +6,9 @@ import tensorflow as tf
 from keras import backend as K
 
 import dataset
-from {{cookiecutter.exec_name}} import logging
-from {{cookiecutter.exec_name}}.config import Config
-from {{cookiecutter.exec_name}}.model import build
+from {{cookiecutter.repo_name}} import logging
+from {{cookiecutter.repo_name}}.config import Config
+from {{cookiecutter.repo_name}}.model import build
 
 
 def echo(*args, fg='green'):
