@@ -2,7 +2,7 @@ from keras import optimizers
 from keras.layers import Conv2D, Dense, Flatten, Reshape
 from keras.models import Sequential
 
-from {{cookiecutter.repo_name}}.config import Config
+from {{cookiecutter.module_name}}.config import Config
 
 
 def build(config: Config):

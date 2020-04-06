@@ -1,6 +1,7 @@
 {
     "project_name": "sample",
-    "repo_name": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
+    "repo_name": "{{ cookiecutter.project_name | lower | replace(' ', '-') }}",
+    "module_name": "{{ cookiecutter.repo_name | lower | replace('-', '_') }}",
     "exec_name": "main",
     "fit_generator": ["yes", "no"],
     "description": "",
