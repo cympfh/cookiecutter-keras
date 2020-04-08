@@ -1,20 +1,24 @@
+## learning & testing!
+all: train test
+
+name:
+	$(eval NAME := $(shell cat conf.ini | grep '\[' | grep -v DEFAULT | tr -d '[]' | peco))
+
 ## training newly
 train:
-	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}}.py train simple
+	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}}.py train $(NAME)
 
 ## training from a snapshot
 train-resume:
-	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}}.py train ninja --resume $(shell ls -1 snapshots/simple.*.h5 | tail -1)
+	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}}.py train $(NAME) --resume $(shell ls -1 snapshots/simple.*.h5 | tail -1)
 
 ## testing
 test:
-	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}}.py test simple
+	CUDA_VISIBLE_DEVICES=$(shell empty-gpu-device) python {{cookiecutter.exec_name}}.py test $(NAME)
 
 ## visplot log
-log:
-	visplot --smoothing 2 -x epoch -y acc,val_acc $(shell ls -1 logs/*.json | peco)
-
-.DEFAULT_GOAL := help
+log: name
+	visplot --smoothing 2 -x epoch -y acc,val_acc logs/$(NAME).json
 
 ## shows this
 help:

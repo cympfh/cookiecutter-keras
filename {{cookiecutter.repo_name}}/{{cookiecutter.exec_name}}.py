@@ -108,7 +108,7 @@ def test(name, snapshot):
         if len(snapshots) == 0:
             echo(f"[Error] No snapshots found for name={name}", fg='red')
             return
-        snapshot = snapshots[-1]
+        snapshot = snapshots[0]
         del snapshots
 
     # running parameters
@@ -123,12 +123,12 @@ def test(name, snapshot):
     K.set_learning_phase(0)
 
     # model loading
-    echo('model loading...')
+    echo(f'model loading from {snapshot}...')
     model = build(config)
     model.load_weights(snapshot)
 
     # testing data
-    echo('testing dataset loading...')
+    echo('test dataset loading...')
 {%- if cookiecutter.fit_generator == "no" %}
     X, y = dataset.load(test=True)
 {%- else %}
@@ -136,6 +136,7 @@ def test(name, snapshot):
 {%- endif %}
 
     # testing
+    echo('testing...')
 {%- if cookiecutter.fit_generator == "no" %}
     results = model.evaluate(x=X, y=y, batch_size=config('batch_size'))
 {%- else %}
